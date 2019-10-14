@@ -16,18 +16,38 @@ public struct RootView: View {
     public init() {
     }
     
+    func setFilter(_ filter: StoryList) -> () -> Void {
+        {
+            self.store.filter = filter
+        }
+    }
+    
     public var body: some View {
-        VStack {
-            if showingFilter {
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            return VStack {
                 FilterSelector(filter: $store.filter)
+                StoryListView { story in
+                    StoryCell(story)
+                        .showsStoryDetails(story)
+                }
+                .environmentObject(store)
             }
-            StoryListView { story in
+            .navigationBarTitle(title)
+            .eraseToAnyView()
+        } else {
+            return StoryListView { story in
                 StoryCell(story)
                     .showsStoryDetails(story)
             }
+            .actionSheet(isPresented: $showingFilter) {
+                ActionSheet(title: Text("Stories"), message: nil, buttons: StoryList.allCases.map { list -> ActionSheet.Button in
+                    .default(Text(list.title), action: setFilter(list))
+                } + [.cancel()])
+            }
             .environmentObject(store)
+            .navigationBarTitle(title)
+            .navigationBarItems(trailing: trailingBarItem)
+            .eraseToAnyView()
         }
-        .navigationBarTitle(title)
-        .navigationBarItems(trailing: trailingBarItem)
     }
 }

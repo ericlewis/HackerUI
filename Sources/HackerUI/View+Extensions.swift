@@ -43,14 +43,10 @@ public struct SafariModifier: ViewModifier {
     }
     
     public func body(content: Content) -> some View {
-        UIDevice.current.userInterfaceIdiom == .pad ? NavigationLink(destination: SafariView(url: url)) {
-            content
-        }
-        .eraseToAnyView() : content
+        content
         .onTapGesture(perform: showSafari)
         .sheet(isPresented: $showing) {
             SafariView(url: self.url)
         }
-        .eraseToAnyView()
     }
 }

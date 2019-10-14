@@ -43,7 +43,7 @@ public struct DetailBar: View {
             Item(by, "person")
                 .onTapGesture(perform: showUser)
                 .sheet(isPresented: $showingUser) {
-                    NavView {
+                    NavigationView {
                         UserView(by)
                             .navigationBarTitle(by)
                             .navigationBarItems(trailing: Button(action: self.showUser) {
@@ -51,6 +51,7 @@ public struct DetailBar: View {
                                     .padding([.leading, .vertical])
                             })
                     }
+                    .navigationViewStyle(StackNavigationViewStyle())
             }
         }
     }

@@ -38,17 +38,18 @@ public struct SafariModifier: ViewModifier {
         self.url = url
     }
     
+    func showSafari() {
+        showing = true
+    }
+    
     public func body(content: Content) -> some View {
         UIDevice.current.userInterfaceIdiom == .pad ? NavigationLink(destination: SafariView(url: url)) {
             content
         }
-        .eraseToAnyView() : Button(action: {
-            self.showing = true
-        }) {
-            content
-            .sheet(isPresented: $showing) {
-                SafariView(url: self.url)
-            }
+        .eraseToAnyView() : content
+        .onTapGesture(perform: showSafari)
+        .sheet(isPresented: $showing) {
+            SafariView(url: self.url)
         }
         .eraseToAnyView()
     }

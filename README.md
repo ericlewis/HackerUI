@@ -1,3 +1,3 @@
 # HackerUI
 
-A description of this package.
+SwiftUI components using HackerKit

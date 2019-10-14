@@ -9,15 +9,18 @@ public struct FilterSelector: View {
     }
     
     public var body: some View {
-        VStack {
-            Picker("Selected Filter", selection: $filter) {
-                ForEach(StoryList.allCases) {
-                    Text($0.title).tag($0)
-                }
+        Picker("Selected Filter", selection: $filter) {
+            ForEach(StoryList.allCases) {
+                Text($0.title).tag($0)
             }
-            .pickerStyle(SegmentedPickerStyle())
-            .padding()
-            Divider()
         }
+        .pickerStyle(SegmentedPickerStyle())
+        .padding()
+    }
+}
+
+struct FilterSelector_Previews: PreviewProvider {
+    static var previews: some View {
+        FilterSelector(filter: .constant(.top))
     }
 }

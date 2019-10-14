@@ -34,7 +34,11 @@ public struct SafariView: UIViewControllerRepresentable {
         }
         
         public func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
-            controller.navigationController?.popViewController(animated: true)
+            guard let nc = controller.navigationController else {
+                return controller.dismiss(animated: true, completion: nil)
+            }
+            
+            nc.popViewController(animated: true)
         }
     }
 }

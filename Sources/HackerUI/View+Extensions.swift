@@ -26,8 +26,29 @@ public extension View {
                 .eraseToAnyView()
         }
         
-        return NavigationLink(destination: SafariView(url: url)) {
-            self
+        return ModifiedContent(content: self, modifier: SafariModifier(url)).eraseToAnyView()
+    }
+}
+
+public struct SafariModifier: ViewModifier {
+    var url: URL
+    @State var showing = false
+    
+    public init(_ url: URL) {
+        self.url = url
+    }
+    
+    public func body(content: Content) -> some View {
+        UIDevice.current.userInterfaceIdiom != .pad ? NavigationLink(destination: SafariView(url: url)) {
+            content
+        }
+        .eraseToAnyView() : Button(action: {
+            self.showing = true
+        }) {
+            content
+            .sheet(isPresented: $showing) {
+                SafariView(url: url)
+            }
         }
         .eraseToAnyView()
     }

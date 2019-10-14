@@ -47,7 +47,7 @@ public struct SafariModifier: ViewModifier {
         }) {
             content
             .sheet(isPresented: $showing) {
-                SafariView(url: url)
+                SafariView(url: self.url)
             }
         }
         .eraseToAnyView()

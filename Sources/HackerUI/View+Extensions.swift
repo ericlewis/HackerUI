@@ -39,7 +39,7 @@ public struct SafariModifier: ViewModifier {
     }
     
     public func body(content: Content) -> some View {
-        UIDevice.current.userInterfaceIdiom != .pad ? NavigationLink(destination: SafariView(url: url)) {
+        UIDevice.current.userInterfaceIdiom == .pad ? NavigationLink(destination: SafariView(url: url)) {
             content
         }
         .eraseToAnyView() : Button(action: {
